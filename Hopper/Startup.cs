@@ -1,3 +1,4 @@
+using System.Net.Sockets;
 using System.Text.Json.Serialization;
 using Hopper.Authorization;
 using Hopper.Data;
@@ -33,7 +34,7 @@ namespace Hopper
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
-
+            
             services.AddIdentity<ApplicationUser, Role>(options =>
                 {
                     options.Password.RequiredLength = 5;
@@ -43,7 +44,6 @@ namespace Hopper
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
             services.AddOwnSwagger();
 
             services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
