@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "255299479733",
+    "firebase_url": "https://sounds-dbc20.firebaseio.com",
+    "project_id": "sounds-dbc20",
+    "storage_bucket": "sounds-dbc20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:255299479733:android:f5088a4e4fa0db4a6df6fc",
+        "android_client_info": {
+          "package_name": "com.karelnagel.hopper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "255299479733-rv7gonmaajdsq3rrjdor99a2r107vre3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.karelnagel.hopper",
+            "certificate_hash": "2a56f04a83e6ade7dcb1d7090d5ac307d2147494"
+          }
+        },
+        {
+          "client_id": "255299479733-d5bnh8qd96c7islvpvoo7d66j8kqj1o5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAe6pwvHujeMxv8_DIL0K4YhZA20C_8OxE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "255299479733-d5bnh8qd96c7islvpvoo7d66j8kqj1o5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
