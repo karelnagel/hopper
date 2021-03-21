@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using Hopper.Models;
 
 namespace Hopper.DTOs
@@ -17,8 +15,6 @@ namespace Hopper.DTOs
             FirstName = applicationUser.FirstName;
             LastName = applicationUser.LastName;
             Language = applicationUser.Language;
-            CreatedSounds = applicationUser.CreatedSounds?.Select(s => new SoundEditDto(s)).ToList();
-            LikedSounds = applicationUser.Favorites?.Select(s => new SoundEditDto(s.Sound)).ToList();
         }
 
         public UserDto()
@@ -35,12 +31,6 @@ namespace Hopper.DTOs
         public string LastName { get; set; }
 
         [Required]
-        public string Language { get; set; }
-
-        [Required]
-        public List<SoundEditDto> CreatedSounds { get; set; }
-
-        [Required]
-        public List<SoundEditDto> LikedSounds { get; set; }
+        public UserLanguage Language { get; set; }
     }
 }

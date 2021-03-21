@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Hopper.Models;
 
 namespace Hopper.DTOs
 {
@@ -11,6 +12,6 @@ namespace Hopper.DTOs
         public string LastName { get; set; }
 
         [Required]
-        public string Language { get; set; }
+        public UserLanguage Language { get; set; }
     }
 }

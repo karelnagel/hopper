@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Hopper.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210319194738_Initial")]
+    [Migration("20210321141303_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,8 +41,8 @@ namespace Hopper.Data.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Language")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                    b.Property<int>("Language")
+                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
@@ -158,8 +158,8 @@ namespace Hopper.Data.Migrations
                     b.Property<string>("Author")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
-                    b.Property<string>("Language")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                    b.Property<int>("Language")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasColumnType("longtext CHARACTER SET utf8mb4");

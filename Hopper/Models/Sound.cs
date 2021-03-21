@@ -10,7 +10,7 @@ namespace Hopper.Models
         {
             if (soundEditDto == null)
                 throw new ArgumentNullException(nameof(soundEditDto));
-            
+
             Title = soundEditDto.Title;
             Author = soundEditDto.Author;
             Video = soundEditDto.Video;
@@ -29,7 +29,7 @@ namespace Hopper.Models
 
         public string Video { get; set; }
 
-        public string Language { get; set; }
+        public UserLanguage Language { get; set; }
 
         public Guid ApplicationUserId { get; set; }
 

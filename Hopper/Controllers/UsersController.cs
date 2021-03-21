@@ -2,6 +2,7 @@
 using Hopper.Data;
 using Hopper.DTOs;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,11 +24,27 @@ namespace Hopper.Controllers
         {
             var currentUserId = GetUserId();
 
-            var applicationUser = await Context.Users.SingleOrDefaultAsync(u => u.Id == currentUserId);
+            var user = await Context.Users.SingleOrDefaultAsync(u => u.Id == currentUserId);
 
-            if (applicationUser == null) return NotFound();
+            if (user == null)
+                return NotFound();
 
-            return new UserDto(applicationUser);
+            return new UserDto(user);
+        }
+
+        [HttpPut("me")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> PutSound(UserDto userDto)
+        {
+            var user = await GetUser();
+            if (user == null)
+                return NotFound();
+            if (user.Id != userDto?.Id)
+                return BadRequest();
+            user.Update(userDto);
+            await Context.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

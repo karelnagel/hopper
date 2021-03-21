@@ -1,14 +1,13 @@
-﻿
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Hopper.Models;
 
 namespace Hopper.DTOs
 {
-    public class SoundDto:SoundEditDto
+    public class SoundDto : SoundEditDto
     {
-        public SoundDto(Sound sound,ApplicationUser user)  :base(sound)
+        public SoundDto(Sound sound, ApplicationUser user) : base(sound)
         {
             if (sound == null)
                 throw new ArgumentNullException(nameof(sound));
@@ -36,6 +35,5 @@ namespace Hopper.DTOs
 
         [Required]
         public bool Creator { get; set; }
-
     }
 }

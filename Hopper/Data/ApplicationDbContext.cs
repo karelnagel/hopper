@@ -49,7 +49,6 @@ namespace Hopper.Data
                     .Where(p => typeof(Guid).IsAssignableFrom(p.ClrType))
                     .ToList()
                     .ForEach(p => p.SetValueConverter(valueConverter));
-            
         }
     }
 }

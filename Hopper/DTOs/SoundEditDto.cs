@@ -34,7 +34,6 @@ namespace Hopper.DTOs
         public string Video { get; set; }
 
         [Required]
-        public string Language { get; set; }
-
+        public UserLanguage Language { get; set; }
     }
 }

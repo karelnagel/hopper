@@ -1,4 +1,3 @@
-using System.Net.Sockets;
 using System.Text.Json.Serialization;
 using Hopper.Authorization;
 using Hopper.Data;
@@ -33,8 +32,9 @@ namespace Hopper
             services.AddControllers();
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
-            
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection"),
+                    c => c.EnableRetryOnFailure()));
+
             services.AddIdentity<ApplicationUser, Role>(options =>
                 {
                     options.Password.RequiredLength = 5;

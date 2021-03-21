@@ -26,9 +26,12 @@ namespace Hopper.Controllers
             return Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
 
-        internal virtual Task<ApplicationUser> GetUser()
+        internal async Task<ApplicationUser> GetUser()
         {
-            return Context.Users.Include(u=>u.CreatedSounds).Include(u=>u.Favorites).SingleOrDefaultAsync(u => u.Id == GetUserId());
+            return await Context.Users.Include(u => u.CreatedSounds)
+                .ThenInclude(s => s.Favorites)
+                .Include(u => u.Favorites)
+                .SingleOrDefaultAsync(u => u.Id == GetUserId());
         }
     }
 }
