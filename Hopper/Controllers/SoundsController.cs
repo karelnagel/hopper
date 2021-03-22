@@ -164,7 +164,8 @@ namespace Hopper.Controllers
             user.CreatedSounds.Add(sound);
             await Context.SaveChangesAsync();
 
-            return new SoundDto(sound, user);
+            return Ok();
+            //return new SoundDto(sound, user);
         }
 
         [HttpPost("{soundId}/upload")]
@@ -196,6 +197,15 @@ namespace Hopper.Controllers
             await Context.SaveChangesAsync();
 
             return filePath;
+        }
+        
+        [HttpGet("{soundId}/upload")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<ActionResult> GetFile(Guid soundId)
+        {
+            var user = await GetUser();
+            await using var stream = new FileStream($"sounds/{soundId}.mp3", FileMode.Open);
+            return File(stream, "audio/mpeg");
         }
 
         [Authorize("Admin")]

@@ -13,8 +13,8 @@ namespace Hopper.DTOs
                 throw new ArgumentNullException(nameof(sound));
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
-            Likes = sound.Favorites.Count;
-            Liked = sound.Favorites.Any(l => l.ApplicationUserId == user.Id);
+            Likes = sound.Favorites!.Count;
+            Liked = sound.Favorites!.Any(l => l.ApplicationUserId == user.Id);
             Address = sound.Address;
             Creator = sound.ApplicationUserId == user.Id;
         }
