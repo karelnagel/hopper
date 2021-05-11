@@ -20,7 +20,6 @@ namespace Hopper.StartupExtensions
                     In = OpenApiSecurityApiKeyLocation.Header,
                     Description = "Type into the textbox: Bearer {your JWT token}."
                 });
-
                 settings.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("JWT"));
             });
         }

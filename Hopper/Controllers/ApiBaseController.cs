@@ -28,7 +28,7 @@ namespace Hopper.Controllers
 
         internal virtual Task<ApplicationUser> GetUser()
         {
-            return Context.Users.Include(u=>u.CreatedSounds).Include(u=>u.Favorites).SingleOrDefaultAsync(u => u.Id == GetUserId());
+            return Context.Users.Include(u=>u.CreatedSounds).Include(u=>u.LikedSounds).SingleOrDefaultAsync(u => u.Id == GetUserId());
         }
     }
 }

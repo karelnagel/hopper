@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Hopper.Data;
@@ -33,8 +34,8 @@ namespace Hopper.Controllers
             [FromQuery] SoundSortBy? sortBy)
         {
             var user = await Context.Users.Include(u => u.CreatedSounds)
-                .ThenInclude(s => s.Favorites)
-                .Include(u => u.Favorites)
+                .ThenInclude(s => s.LikedUsers)
+                .Include(u => u.LikedSounds)
                 .SingleOrDefaultAsync(u => u.Id == GetUserId());
             if (user == null)
                 return NotFound();
@@ -43,8 +44,8 @@ namespace Hopper.Controllers
             var sounds = filter switch
             {
                 SoundFilter.Created => user.CreatedSounds,
-                SoundFilter.Liked => user.Favorites.Select(f => f.Sound),
-                _ => await Context.Sounds.Include(s => s.Favorites).Where(s => s.Address != null).ToListAsync(),
+                SoundFilter.Liked => user.LikedSounds.Select(f => f),
+                _ => await Context.Sounds.Include(s => s.LikedUsers).Where(s => s.Address != null).ToListAsync(),
             };
 
             //Language
@@ -63,7 +64,7 @@ namespace Hopper.Controllers
             {
                 SoundSortBy.Title => sounds.OrderBy(s => s.Title),
                 SoundSortBy.Author => sounds.OrderBy(s => s.Author),
-                SoundSortBy.Likes => sounds.OrderBy(s => s.Favorites.Count),
+                SoundSortBy.Likes => sounds.OrderBy(s => s.LikedUsers.Count),
                 _ => sounds
             };
 
@@ -108,21 +109,16 @@ namespace Hopper.Controllers
             if (sound == null)
                 return NotFound();
 
-            var like = user.Favorites.SingleOrDefault(f => f.SoundId == soundId);
+            var like = user.LikedSounds.SingleOrDefault(f => f.Id == soundId);
             if (like == null)
             {
-                like = new Favorite()
-                {
-                    ApplicationUser = user,
-                    Sound = sound,
-                };
-                user.Favorites.Add(like);
-                sound.Favorites.Add(like);
+                user.LikedSounds.Add(sound);
+                sound.LikedUsers.Add(user);
             }
             else
             {
-                user.Favorites.Remove(like);
-                sound.Favorites.Remove(like);
+                user.LikedSounds.Remove(sound);
+                sound.LikedUsers.Remove(user);
             }
 
             await Context.SaveChangesAsync();
@@ -130,9 +126,101 @@ namespace Hopper.Controllers
         }
 
 
+        [HttpPut("{soundId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> PutSound(Guid soundId, SoundEditDto soundEditDto)
+        {
+            if (soundEditDto == null)
+                throw new ArgumentNullException(nameof(soundEditDto));
+
+            if (soundId != soundEditDto.Id)
+                return BadRequest();
+
+            var user = await GetUser();
+            var sound = GetCreatedSound(soundId, user);
+
+            if (sound == null)
+                return NotFound();
+
+            sound.Update(soundEditDto);
+            await Context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<ActionResult<SoundEditDto>> PostSound(SoundEditDto soundEditDto)
+        {
+            if (soundEditDto == null)
+                throw new ArgumentNullException(nameof(soundEditDto));
+
+            var user = await GetUser();
+            if (user == null)
+                return NotFound();
+
+            var sound = new Sound(soundEditDto);
+
+            user.CreatedSounds.Add(sound);
+            await Context.SaveChangesAsync();
+            //Todo return saved sound
+            //Todo enums as strings in controller
+            return Ok();
+        }
+        
+        [HttpPost("{soundId}/upload")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<ActionResult<string>> PostFile(Guid soundId, IFormFile file)
+        {
+            if (file == null)
+                throw new ArgumentNullException(nameof(file));
+            
+            var user = await GetUser();
+            if (user == null)
+                return NotFound();
+
+            var sound = GetCreatedSound(soundId, user);
+            
+
+            //Uploading file 
+            if (file.Length <= 0) return BadRequest();
+            var filePath = Path.Combine(Path.GetFullPath("/home/karel/Desktop"),soundId.ToString());
+            System.Console.WriteLine(filePath);
+            await using var stream = System.IO.File.Create(filePath);
+            await file.CopyToAsync(stream);
+            
+            sound.Address = filePath;
+            await Context.SaveChangesAsync();
+            
+            return filePath;
+        }
+
+        [Authorize("Admin")]
+        [HttpDelete("{soundId}")]
+        public async Task<ActionResult<SoundEditDto>> DeleteSound(Guid soundId)
+        {
+            var user = await GetUser();
+            if (user == null)
+                return NotFound();
+
+            var sound = GetCreatedSound(soundId, user);
+            if (sound == null)
+                return NotFound();
+
+            user.CreatedSounds.Remove(sound);
+            await Context.SaveChangesAsync();
+
+            return new SoundEditDto(sound);
+        }
+
+        private static Sound GetCreatedSound(Guid soundId, ApplicationUser user)
+        {
+            return user?.CreatedSounds.SingleOrDefault(s => s.Id == soundId);
+        }
+
         private async Task<Sound> GetSound(Guid soundId)
         {
-            return await Context.Sounds.Include(s => s.Favorites).SingleOrDefaultAsync(s => s.Id == soundId);
+            return await Context.Sounds.Include(s => s.LikedUsers).SingleOrDefaultAsync(s => s.Id == soundId);
         }
     }
 }

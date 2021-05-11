@@ -31,8 +31,9 @@ namespace Hopper
 
             services.AddControllers();
 
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString)));
 
             services.AddIdentity<ApplicationUser, Role>(options =>
                 {
@@ -61,7 +62,6 @@ namespace Hopper
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
             }
             else
             {

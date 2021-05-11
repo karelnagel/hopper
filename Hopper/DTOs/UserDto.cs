@@ -18,7 +18,7 @@ namespace Hopper.DTOs
             LastName = applicationUser.LastName;
             Language = applicationUser.Language;
             CreatedSounds = applicationUser.CreatedSounds?.Select(s => new SoundEditDto(s)).ToList();
-            LikedSounds = applicationUser.Favorites?.Select(s => new SoundEditDto(s.Sound)).ToList();
+            LikedSounds = applicationUser.LikedSounds?.Select(s => new SoundEditDto(s)).ToList();
         }
 
         public UserDto()

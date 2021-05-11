@@ -18,6 +18,6 @@ namespace Hopper.Models
         [ForeignKey("ApplicationUserId")]
         public List<Sound> CreatedSounds { get; set; }
 
-        public List<Favorite> Favorites { get; set; }
+        public ICollection<Sound> LikedSounds { get; set; }
     }
 }

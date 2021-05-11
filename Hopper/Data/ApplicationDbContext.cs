@@ -42,7 +42,10 @@ namespace Hopper.Data
 
             base.OnModelCreating(builder);
             builder.ConfigurePersistedGrantContext(_operationalStoreOptions.Value);
-
+            builder.Entity<ApplicationUser>()
+                .HasMany(c => c.CreatedSounds)
+                .WithOne(e => e.ApplicationUser);
+            
             var valueConverter = new GuidToStringConverter();
             foreach (var entityType in builder.Model.GetEntityTypes())
                 entityType.GetProperties()

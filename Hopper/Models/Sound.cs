@@ -32,8 +32,9 @@ namespace Hopper.Models
         public string Language { get; set; }
 
         public Guid ApplicationUserId { get; set; }
-
-        public List<Favorite> Favorites { get; set; }
+        
+        public ApplicationUser ApplicationUser { get; set; }
+        public ICollection<ApplicationUser> LikedUsers { get; set; }
 
         public string Address { get; set; }
 

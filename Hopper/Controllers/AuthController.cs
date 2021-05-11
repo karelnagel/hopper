@@ -33,7 +33,6 @@ namespace Hopper.Controllers
             RoleManager<Role> roleManager,
             IOptionsSnapshot<JwtSettings> jwtSettings,
             SignInManager<ApplicationUser> signInManager) : base(context, authorizationService)
-
         {
             if (jwtSettings == null)
                 throw new ArgumentNullException(nameof(jwtSettings));
