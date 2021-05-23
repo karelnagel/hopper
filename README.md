@@ -9,4 +9,6 @@ Uue rakenduse versiooni saame Play Store'i CodeMagicu abiga.
 
 [ASP.NET backend, mida app praegu veel ei kasuta](http://hopperapi.herokuapp.com/swagger/index.html)
 
+[PDF](https://github.com/karelnagel/hopper/blob/main/Hopper.pdf)
+
 [![Video](http://img.youtube.com/vi/HayFLoMkzpA/0.jpg)](http://www.youtube.com/watch?v=HayFLoMkzpA)
