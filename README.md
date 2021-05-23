@@ -1,4 +1,6 @@
+![hopper](https://github.com/karelnagel/hopper/blob/main/Hopper/assets/images/hopperlogo.png)
 # Hopper
+
 Hopper on rakendus, mille eesmärk on jagada kasutajate loodud heli klippe. 
 Rakendus on loodud Flutteriga. Backend ja kasutajate sisse logimiseks kasutame Firebase. HopperApi kaustas on ASP.NET core backendi failid, mida veel app ei kasuta.
 Uue rakenduse versiooni saame Play Store'i CodeMagicu abiga.
